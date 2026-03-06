@@ -19,7 +19,19 @@ Ahora el script es compatible con:
 - Tema **Honukai** preconfigurado.
 - Soporte automático para rutas de **Homebrew** en Mac ARM64.
 
-## 🚀 Instalación rápida
+## 🚀 Instalación rápida (One-Liner)
+
+Si quieres instalar todo con un solo comando sin descargar el archivo manualmente, usa:
+
+### En macOS / Linux:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ricardowec51/my_zsh_install.sh/main/my_zsh_install.sh | bash
+```
+
+---
+
+## 🛠️ Instalación Manual (Paso a paso)
 
 ### En Ubuntu / Debian:
 
