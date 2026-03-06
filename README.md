@@ -1,2 +1,45 @@
-# my_zsh_install.sh
-Este Scropt instala el  shell ZSH  en una instalacion fresca de Ubuntu 22.04 para arriba , instala completions y el mejor tema: el tema Hanykai
+# my_zsh_install.sh 🚀
+
+Este script instala de forma automatizada **Zsh**, **Oh My Zsh**, el tema **Honukai** y una selección de plugins esenciales para una experiencia de terminal superior.
+
+## 💻 Soporte Multiplataforma
+
+Ahora el script es compatible con:
+
+- **Ubuntu 22.04+** (vía `apt`)
+- **macOS** (vía `brew`) - _Optimizado para Apple Silicon (M1/M2/M3/M4)_
+
+## 📦 Características
+
+- Instalación de dependencias (git, curl, fonts).
+- Configuración de plugins:
+  - `zsh-autosuggestions`: Sugerencias basadas en historial.
+  - `zsh-syntax-highlighting`: Resaltado de comandos en tiempo real.
+  - `zsh-completions`: Completado avanzado para +800 herramientas.
+- Tema **Honukai** preconfigurado.
+- Soporte automático para rutas de **Homebrew** en Mac ARM64.
+
+## 🚀 Instalación rápida
+
+### En Ubuntu / Debian:
+
+```bash
+wget https://raw.githubusercontent.com/ricardowec51/my_zsh_install.sh/main/my_zsh_install.sh
+chmod +x my_zsh_install.sh
+./my_zsh_install.sh
+```
+
+### En macOS:
+
+1. Asegúrate de tener instalado [Homebrew](https://brew.sh/).
+2. Ejecuta:
+
+```bash
+curl -O https://raw.githubusercontent.com/ricardowec51/my_zsh_install.sh/main/my_zsh_install.sh
+chmod +x my_zsh_install.sh
+./my_zsh_install.sh
+```
+
+---
+
+_Autor: [ricardowec51](https://github.com/ricardowec51)_

@@ -1,56 +1,77 @@
 #!/bin/bash
 
-set -e  # Sale en caso de error
+# my_zsh_install.sh - Instalador universal de ZSH (Ubuntu/macOS)
+# Autor: Ricardo Wagner (ricardowec51)
+# Adaptado por: Antigravity AI
 
-echo "🔄 Actualizando sistema..."
-apt update && apt upgrade -y
-apt install -y zsh git curl wget vim locales-all fonts-powerline powerline-fonts  # Fuentes para temas[web:12][web:28]
+set -e
+
+# Detección del Sistema Operativo
+OS_TYPE="$(uname)"
+echo "🚀 Sistema detectado: $OS_TYPE"
+
+install_dependencies() {
+    if [[ "$OS_TYPE" == "Linux" ]]; then
+        echo "🔄 Actualizando sistema (Linux/apt)..."
+        sudo apt update && sudo apt upgrade -y
+        sudo apt install -y zsh git curl wget vim locales-all fonts-powerline powerline-fonts
+    elif [[ "$OS_TYPE" == "Darwin" ]]; then
+        echo "🔄 Verificando Homebrew (macOS)..."
+        if ! command -v brew &> /dev/null; then
+            echo "❌ Homebrew no encontrado. Instálalo en: https://brew.sh/"
+            exit 1
+        fi
+        brew install zsh git curl coreutils
+    else
+        echo "❌ Sistema no soportado: $OS_TYPE"
+        exit 1
+    fi
+}
+
+install_dependencies
 
 echo "✅ Verificando Zsh..."
-if ! command -v zsh &> /dev/null; then
-    apt install -y zsh
-fi
-echo "Zsh versión: $(zsh --version)"[web:21]
+echo "Zsh versión: $(zsh --version)"
 
 echo "🎨 Instalando Oh My Zsh..."
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 else
     echo "Oh My Zsh ya existe."
-fi[web:16][page:1]
+fi
 
 echo "📦 Instalando plugins de completions..."
 ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
 CUSTOM_PLUGINS="$ZSH_CUSTOM/plugins"
 
-# zsh-autosuggestions (sugerencias historial)
-if [ ! -d "$CUSTOM_PLUGINS/zsh-autosuggestions" ]; then
-    git clone https://github.com/zsh-users/zsh-autosuggestions.git "$CUSTOM_PLUGINS/zsh-autosuggestions"
-fi[web:7]
+# Plugins de la comunidad
+declare -A PLUGINS=(
+    ["zsh-autosuggestions"]="https://github.com/zsh-users/zsh-autosuggestions.git"
+    ["zsh-syntax-highlighting"]="https://github.com/zsh-users/zsh-syntax-highlighting.git"
+    ["zsh-completions"]="https://github.com/zsh-users/zsh-completions.git"
+)
 
-# zsh-syntax-highlighting (resaltado sintaxis)
-if [ ! -d "$CUSTOM_PLUGINS/zsh-syntax-highlighting" ]; then
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$CUSTOM_PLUGINS/zsh-syntax-highlighting"
-fi[web:7]
-
-# zsh-completions (+800 completions extras)
-if [ ! -d "$CUSTOM_PLUGINS/zsh-completions" ]; then
-    git clone https://github.com/zsh-users/zsh-completions.git "$CUSTOM_PLUGINS/zsh-completions"
-fi[web:17][page:0]
+for plugin in "${!PLUGINS[@]}"; do
+    if [ ! -d "$CUSTOM_PLUGINS/$plugin" ]; then
+        echo "Clonando $plugin..."
+        git clone "${PLUGINS[$plugin]}" "$CUSTOM_PLUGINS/$plugin"
+    fi
+done
 
 echo "🎨 Configurando tema Honukai..."
-# Backup .zshrc original
-cp ~/.zshrc ~/.zshrc.backup 2>/dev/null || true
+if [ -f "$HOME/.zshrc" ]; then
+    cp ~/.zshrc ~/.zshrc.backup_$(date +%Y%m%d_%H%M%S) 2>/dev/null || true
+fi
 
-# Configuración completa .zshrc
 cat > ~/.zshrc << 'EOF'
-# Configuración Zsh + Oh My Zsh + Honukai + Completions
+# Configuración Zsh + Oh My Zsh + Honukai + Completions 
+# Generado por my_zsh_install.sh
 export ZSH="$HOME/.oh-my-zsh"
 
 # Tema Honukai
 ZSH_THEME="honukai"
 
-# Plugins (completions + mejoras)
+# Plugins activos
 plugins=(
     git
     zsh-autosuggestions
@@ -60,21 +81,29 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
-# Completions avanzados (evita duplicados)
+# Completions avanzados
 fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 autoload -Uz compinit
 compinit -d "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/.zcompdump"
 
-# Historial mejorado
+# Historial
 HISTSIZE=50000
 SAVEHIST=50000
 setopt SHARE_HISTORY
-EOF[web:17][web:7]
 
-echo "🔧 Estableciendo Zsh como shell predeterminado..."
-chsh -s $(which zsh)[web:5][web:10]
+# Soporte para Homebrew en macOS ARM64 (M1/M2/M3/M4)
+if [[ $(uname) == "Darwin" && $(uname -m) == "arm64" ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+EOF
+
+echo "🔧 Cambiando shell predeterminado..."
+if [[ "$SHELL" != "$(which zsh)" ]]; then
+    chsh -s $(which zsh)
+fi
 
 echo "✅ ¡INSTALACIÓN COMPLETA!"
-echo "Ejecuta: exec zsh"
-echo "O reinicia la terminal para ver el tema Honukai con completions."
-echo "Prueba: git st<TAB>, apt in<TAB>, docker ps<TAB>"
+echo "Instrucciones finales:"
+echo "1. Ejecuta: exec zsh"
+echo "2. O reinicia la terminal para ver el tema Honukai."
+echo "Prueba: git st<TAB>, docker ps<TAB>"
