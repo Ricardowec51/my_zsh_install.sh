@@ -44,7 +44,7 @@ echo "📦 Instalando plugins de completions..."
 ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
 CUSTOM_PLUGINS="$ZSH_CUSTOM/plugins"
 
-# Plugins de la comunidad
+# Plugins y Temas de la comunidad
 declare -A PLUGINS=(
     ["zsh-autosuggestions"]="https://github.com/zsh-users/zsh-autosuggestions.git"
     ["zsh-syntax-highlighting"]="https://github.com/zsh-users/zsh-syntax-highlighting.git"
@@ -58,18 +58,24 @@ for plugin in "${!PLUGINS[@]}"; do
     fi
 done
 
-echo "🎨 Configurando tema Honukai..."
+# Instalación de Powerlevel10k
+if [ ! -d "$ZSH_CUSTOM/themes/powerlevel10k" ]; then
+    echo "Clonando Powerlevel10k..."
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$ZSH_CUSTOM/themes/powerlevel10k"
+fi
+
+echo "🎨 Configurando tema Powerlevel10k..."
 if [ -f "$HOME/.zshrc" ]; then
     cp ~/.zshrc ~/.zshrc.backup_$(date +%Y%m%d_%H%M%S) 2>/dev/null || true
 fi
 
 cat > ~/.zshrc << 'EOF'
-# Configuración Zsh + Oh My Zsh + Honukai + Completions 
+# Configuración Zsh + Oh My Zsh + Powerlevel10k + Completions 
 # Generado por my_zsh_install.sh
 export ZSH="$HOME/.oh-my-zsh"
 
-# Tema Honukai
-ZSH_THEME="honukai"
+# Tema Powerlevel10k
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Plugins activos
 plugins=(

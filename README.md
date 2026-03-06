@@ -1,6 +1,6 @@
 # my_zsh_install.sh 🚀
 
-Este script instala de forma automatizada **Zsh**, **Oh My Zsh**, el tema **Honukai** y una selección de plugins esenciales para una experiencia de terminal superior.
+Este script instala de forma automatizada **Zsh**, **Oh My Zsh**, el potente tema **Powerlevel10k** y una selección de plugins esenciales para una experiencia de terminal superior.
 
 ## 💻 Soporte Multiplataforma
 
@@ -16,8 +16,17 @@ Ahora el script es compatible con:
   - `zsh-autosuggestions`: Sugerencias basadas en historial.
   - `zsh-syntax-highlighting`: Resaltado de comandos en tiempo real.
   - `zsh-completions`: Completado avanzado para +800 herramientas.
-- Tema **Honukai** preconfigurado.
+- Tema **Powerlevel10k** preconfigurado (el más rápido y personalizable).
 - Soporte automático para rutas de **Homebrew** en Mac ARM64.
+
+## 🔡 Fuentes recomendadas
+
+Para que los iconos de Powerlevel10k se vean correctamente, se recomienda instalar las fuentes **MesloLGS NF**:
+
+- [MesloLGS NF Regular.ttf](https://github.com/romkatv/dotfiles-public/raw/master/dotfiles/.local/share/fonts/NerdFonts/MesloLGS%20NF%20Regular.ttf)
+- [MesloLGS NF Bold.ttf](https://github.com/romkatv/dotfiles-public/raw/master/dotfiles/.local/share/fonts/NerdFonts/MesloLGS%20NF%20Bold.ttf)
+- [MesloLGS NF Italic.ttf](https://github.com/romkatv/dotfiles-public/raw/master/dotfiles/.local/share/fonts/NerdFonts/MesloLGS%20NF%20Italic.ttf)
+- [MesloLGS NF Bold Italic.ttf](https://github.com/romkatv/dotfiles-public/raw/master/dotfiles/.local/share/fonts/NerdFonts/MesloLGS%20NF%20Bold%20Italic.ttf)
 
 ## 🚀 Instalación rápida (One-Liner)
 
